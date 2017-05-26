@@ -1,0 +1,28 @@
+* {
+  margin: 0 auto;
+}
+
+.container {
+  position: absolute;
+  top: 150px;
+  left: 13%;
+  margin: 0 auto;
+  background-color: white;
+  width: 70%;
+  padding: 2%;
+  border-radius: 15px;
+}
+
+#angular {
+  color: red;
+}
+
+a {
+  text-decoration: none;
+  color: red;
+}
+
+a:hover {
+  color: white;
+  background-color: red;
+}

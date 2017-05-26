@@ -1,0 +1,77 @@
+<div class="container">
+<h3>Totals for NYC Subway System</h3>
+<p>&nbsp;</p>
+<div [ngClass]="{'active': highlightedDiv === 2 }" class="button" (click)="sortByStations()" >Sort by Stations</div>
+<div [ngClass]="{'active': highlightedDiv === 3 }" class="button" (click)="sortByYear()" >Sort by Year</div>
+<div [ngClass]="{'active': highlightedDiv === 4 }" class="button" (click)="sortByStock()" >Sort by Rolling Stock</div>
+<div [ngClass]="{'active': highlightedDiv === 5 }" class="button" (click)="sortByOntime()" >Sort by Ontime %</div>
+<div [ngClass]="{'active': highlightedDiv === 6 }" class="button" (click)="sortByRating()" >Sort by Rating</div>
+<br>
+
+<div *ngIf="this.arrayReturned === false">
+  <br>
+  Click a button to see collected stats for the NYC MTA Subway System
+</div>
+
+
+<div *ngIf="this.arrayReturned === true">
+
+  <div *ngIf="this.currentSort === 1">
+    <ul [style.padding-right.%]="20" >
+      <li *ngFor="let train of mySort" [ngStyle]="{'background-color': train.backgroundColor}" >
+        <span [ngStyle]="{'color': train.color}" > {{ train.name }} </span>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="this.currentSort === 2">
+    <ul>
+      <li *ngFor="let train of mySort" [style.width.%]="(train[1] + 10)">
+        <div [ngStyle]="{'background-color': train[3]}"><span [ngStyle]="{'color': train[2]}"> {{ train[0] }} </span>: {{train[1]}} stations</div>
+      </li>
+    </ul>
+    <p>&nbsp;</p>
+    <p> Total stations = {{stations}} </p>
+    <aside>* Note: stations serviced by more than one train line are counted multiple times by this tally. Example: 23rd Street Station, served by both R and W trains, is counted 2 times. </aside>
+  </div>
+
+  <div *ngIf="this.currentSort === 3">
+    <ul [style.padding-right.%]="3" >
+      <li *ngFor="let train of mySort"  class="inService" [style.width.%]="((2040 - train[1]) * .5) + 20" >
+        <div [ngStyle]="{'background-color': train[3]}" >
+          <span [ngStyle]="{'color': train[2]}" > {{ train[0] }} </span>: Opened  {{train[1]}} </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="this.currentSort === 4">
+    <ul [style.padding-left.%]="5" >
+      <li *ngFor="let train of mySort" [style.width.%]="(train[1] / 4)">
+        <div [ngStyle]="{'background-color': train[3]}"><span [ngStyle]="{'color': train[2]}"> {{ train[0] }} </span><span>: {{train[1]}} cars</span></div>
+      </li>
+    </ul>
+    <p> Total cars in service = {{stock}} </p>
+  </div>
+
+  <div *ngIf="this.currentSort === 5">
+    <ul [style.padding-left.%]="5" >
+      <li *ngFor="let train of mySort" [style.width.%]="(train[1] * .9 )">
+        <div *ngIf="train[1] !== null "  [ngStyle]="{'background-color': train[3]}"><span [ngStyle]="{'color': train[2]}"> {{ train[0] }} </span><span> Ontime = {{train[1]}} %</span></div>
+      </li>
+    </ul>
+    <p>&nbsp;</p>
+    <p> Systemwide ontime (2014) = {{ontime}}%</p>
+    <aside>* Note: W train not yet operational in 2014 </aside>
+  </div>
+
+  <div *ngIf="this.currentSort === 6">
+    <ul [style.padding-left.%]="5" >
+      <li *ngFor="let train of mySort"  [style.width.%]="(train[1] * 19)" >
+        <div *ngIf="train[1] !== null"  [ngStyle]="{'background-color': train[3]}"><span [ngStyle]="{'color': train[2]}"> {{ train[0] }} </span><span> rating: {{train[1]}} </span>
+        </div>
+      </li>
+    </ul>
+  <p> Systemwide average rating = {{rating}} </p>
+  <aside>* Note: Only trains with ratings displayed </aside>
+  </div>
+</div>

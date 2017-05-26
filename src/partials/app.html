@@ -1,0 +1,29 @@
+<header>
+  <a id="titlecard" href="/">
+    <h1>{{title}}</h1>
+  </a>
+  <h2>a look at the lines of the NYC Subway System via <i>Angular2</i></h2>
+  <br>
+  <nav>
+    <a [ngClass]="{'active': highlightedDiv === 3 }" routerLink="/system" routerLinkActive="active" (click)="makeActive(3)" >System</a>
+    <a [ngClass]="{'active': highlightedDiv === 2 }" routerLink="/trains" routerLinkActive="active" (click)="makeActive(2)" >Trains</a>
+    <a [ngClass]="{'active': highlightedDiv === 1 }" routerLink="/about" routerLinkActive="active" (click)="makeActive(1)" >About</a>
+  </nav>
+</header>
+<div class="after"></div>
+
+<div class="container">
+  <br>
+  <br>
+
+    <div class="default" *ngIf="this.landingView === true">
+      <br>
+      <h1>My NYC Subway App</h1>
+    </div>
+
+    <router-outlet></router-outlet>
+
+</div>
+
+
+

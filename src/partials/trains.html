@@ -1,0 +1,99 @@
+<div class="container">
+<br>
+<div *ngIf="!currentTrain">
+  <h3>{{title}}</h3>
+  <br>
+  <ul>
+    <li *ngFor="let train of trains" (click)="showTrain(train)" class="trainName"  [ngStyle]="{'background-color': train.backgroundColor}"
+    [class.selected]="train === currentTrain">
+    <span [ngStyle]="{'color': train.color}" >  {{ train.name }}  </span>
+    </li>
+  </ul>
+
+<!-- card search -->
+
+  <p>&nbsp;</p>
+- Or -
+  <p>&nbsp;</p>
+  <h3>Search by neighborhood / destination</h3>
+  <p>&nbsp;</p>
+  <label><span *ngIf="!query">search term:</span>
+    <span *ngIf="query" [innerHTML]="'searching for: ' + query"></span>
+  </label>
+  <input [(ngModel)]="query" placeholder="type search term here">
+
+
+<div *ngIf="query">
+<p>&nbsp;</p>
+<p><span *ngIf="query" [innerHTML]="'Trains with service areas matching ' +  query + ':' "></span>&nbsp;</p>
+  <ul>
+    <li *ngFor="let train of  (trains | search: query)" (click)="showTrain(train)" class="trainName"  [ngStyle]="{'background-color': train.backgroundColor}"
+    [class.selected]="train === currentTrain">
+    <span [ngStyle]="{'color': train.color}" >  {{ train.name }}  </span>
+    </li>
+  </ul>
+</div>
+</div>
+
+<div *ngIf="currentTrain">
+
+  <h3>The <span class="selectedtrainName" [ngStyle]="{'background-color': currentTrain.backgroundColor}" ><span [ngStyle]="{'color': currentTrain.color}" >{{currentTrain.name}}</span> </span>train entered service in {{currentTrain.opened }}.</h3>
+
+  <div id="boxes">
+
+    <div class="mapdiv">
+      <img [src]="currentTrain.map">
+      <br>
+      <caption>Map of {{currentTrain.name}} route</caption>
+      <br>
+    </div>  <!-- end mapdiv -->
+
+    <div class="detailsdiv">
+
+      <ul id="stats">
+        <li><strong>Boroughs served: </strong>&nbsp;&nbsp;{{ currentTrain.boroughs }}.</li>
+        <br>
+        <li><strong>Number of train cars in service: </strong>&nbsp;&nbsp;{{ currentTrain.stock }}.
+          <span *ngIf="currentTrain.name === 'W'"><i>*Shared with N Line</i></span>
+          <span *ngIf="currentTrain.name === 'N'"><i>*Shared with W Line</i></span>
+        </li>
+        <br>
+        <li><strong>Total number of stations: </strong>&nbsp;&nbsp;{{ currentTrain.stations }}.</li>
+        <br>
+        <li><strong>Ontime percentage (2014): </strong>&nbsp;&nbsp;{{ currentTrain.ontime }}%.
+          <span *ngIf="currentTrain.name === 'W'"><i>*No W train data for year 2014.</i></span>
+        </li>
+        <br>
+      </ul>
+
+      <div *ngIf="!currentTrain.rating">
+        <p>&nbsp;</p>
+        <p><i>Be first to rate this train!</i></p>
+        <p>&nbsp;</p>
+        <label> {{currentTrain.name}} Train Rating: </label>
+        <input [(ngModel)]="currentTrain.rating" placeholder="" type="number" name="rating" min="1" max="5" size="3"/>
+        <br>
+        <br>
+        <br>
+      </div>
+
+      <div *ngIf="currentTrain.rating">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <label><strong> {{currentTrain.name}} </strong>Train Rating: </label>
+        <input [(ngModel)]="currentTrain.rating" placeholder="Rate this train" type="number" name="rating" min="1" max="5" size="3"/>
+        <br>
+        <br>
+        <br>
+      </div>
+
+      <div class="button" (click)="goBack()" [ngStyle]="{'background-color': currentTrain.backgroundColor}"  >Back to Trains List</div>
+
+    </div>  <!-- end detailsdiv -->
+
+  </div>  <!-- end boxesdiv -->
+
+</div>  <!-- end currentTrain -->
+
+</div> <!-- end container -->
